@@ -1,62 +1,63 @@
+#include "main.h"
+#include <limits.h>
 #include <stdio.h>
-#include <stdarg.h>
 
-int _printf(const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-    int chars_printed = 0;
+/**
+ * _printf - produces output according to a format
+ * @format: format string containing the characters and the specifiers
+ * Description: this function will call the get_print() function that will
+ * determine which printing function to call depending on the conversion
+ * specifiers contained into fmt
+ * Return: length of the formatted output string
+ */
+int _printf(const char *format, ...)
+{
+	int (*pfunc)(va_list, flags_t *);
+	const char *p;
+	va_list arguments;
+	flags_t flags = {0, 0, 0};
 
-    while (*format) {
-        if (*format == '%') {
-            format++; // Move past the '%'
-            char specifier = *format;
+	register int count = 0;
 
-            if (specifier == '\0') {
-                // Handle the case when '%' is at the end of the format string
-                break;
-            }
-            else if (specifier == 'c') {
-                // Character specifier
-                char c = (char)va_arg(args, int);
-                putchar(c);
-                chars_printed++;
-            }
-            else if (specifier == 's') {
-                // String specifier
-                char *str = va_arg(args, char*);
-                while (*str) {
-                    putchar(*str);
-                    str++;
-                    chars_printed++;
-                }
-            }
-            else if (specifier == '%') {
-                // Print a literal '%'
-                putchar('%');
-                chars_printed++;
-            }
-            else {
-                // Unrecognized specifier, skip it
-                putchar('%');
-                putchar(specifier);
-                chars_printed += 2;
-            }
-        }
-        else {
-            // Regular character, just print it
-            putchar(*format);
-            chars_printed++;
-        }
+	va_start(arguments, format);
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = format; *p; p++)
+	{
+		if (*p == '%')
+		{
+			p++;
+			if (*p == '%')
+			{
+				count += _putchar('%');
+				continue;
+			}
+			while (get_flag(*p, &flags))
+				p++;
 
-        format++; // Move to the next character in the format string
-    }
-
-    va_end(args);
-    return chars_printed;
-}
-
-int main() {
-    int chars_printed = _printf("Hello, %s! This is a test. The character is %c and the percentage is %%.\n", "Alice", 'X');
-    printf("\nTotal characters printed (excluding the null byte): %d\n", chars_printed);
-    return 0;
+			switch (*p)
+			{
+				case 'c':
+				case 's':
+				case '%':
+					pfunc = get_print(*p);
+					count += (pfunc)
+						? pfunc(arguments, &flags)
+						: _printf("%%%c", *p);
+					break;
+				default:
+					count += _putchar('%');
+					count += _putchar(*p);
+			}
+		}
+		else
+		{
+			count += _putchar(*p);
+		}
+	}
+	_putchar(-1);
+	va_end(arguments);
+	return (count);
 }
