@@ -1,63 +1,58 @@
-#include "main.h"
-#include <limits.h>
+#include <stdarg.h>
 #include <stdio.h>
 
-/**
- * _printf - produces output according to a format
- * @format: format string containing the characters and the specifiers
- * Description: this function will call the get_print() function that will
- * determine which printing function to call depending on the conversion
- * specifiers contained into fmt
- * Return: length of the formatted output string
- */
 int _printf(const char *format, ...)
 {
-	int (*pfunc)(va_list, flags_t *);
-	const char *p;
-	va_list arguments;
-	flags_t flags = {0, 0, 0};
+    va_list args;
+    va_start(args, format);
+    int count = 0;
 
-	register int count = 0;
+    while (*format)
+    {
+        if (*format == '%')
+        {
+            format++; // Move past the '%'
 
-	va_start(arguments, format);
-	if (!format || (format[0] == '%' && !format[1]))
-		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	for (p = format; *p; p++)
-	{
-		if (*p == '%')
-		{
-			p++;
-			if (*p == '%')
-			{
-				count += _putchar('%');
-				continue;
-			}
-			while (get_flag(*p, &flags))
-				p++;
+            if (*format == '\0')
+                break;
 
-			switch (*p)
-			{
-				case 'c':
-				case 's':
-				case '%':
-					pfunc = get_print(*p);
-					count += (pfunc)
-						? pfunc(arguments, &flags)
-						: _printf("%%%c", *p);
-					break;
-				default:
-					count += _putchar('%');
-					count += _putchar(*p);
-			}
-		}
-		else
-		{
-			count += _putchar(*p);
-		}
-	}
-	_putchar(-1);
-	va_end(arguments);
-	return (count);
+            if (*format == '%')
+            {
+                putchar('%');
+                count++;
+            }
+            else if (*format == 'c')
+            {
+                char c = (char)va_arg(args, int);
+                putchar(c);
+                count++;
+            }
+            else if (*format == 's')
+            {
+                char *str = va_arg(args, char*);
+                while (*str)
+                {
+                    putchar(*str);
+                    str++;
+                    count++;
+                }
+            }
+            else
+            {
+                putchar('%');
+                putchar(*format);
+                count += 2;
+            }
+        }
+        else
+        {
+            putchar(*format);
+            count++;
+        }
+
+        format++; // Move to the next character in the format string
+    }
+
+    va_end(args);
+    return count;
 }
