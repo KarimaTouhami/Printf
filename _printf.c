@@ -1,45 +1,74 @@
-#include "main.h"
+#include <stdarg.h>
+#include <stdio.h>
+
 /**
- * _printf - is a function that selects the correct function to print.
- * @format: identifier to look for.
- * Return: the length of the string.
- */
-int _printf(const char * const format, ...)
+* _printf - a function that produces output according to a format
+* @format: character string
+* Return: the number of characters printed (excluding the null byte used to end output to strings)
+*/
+
+int _printf(const char *format, ...)
 {
-	convert_match m[] = {
-		{"%s", printf_string}, {"%c", printf_char},
-		{"%%", printf_37},
-		{"%i", printf_int}, {"%d", printf_dec}, {"%r", printf_srev},
-		{"%R", printf_rot13}, {"%b", printf_bin}, {"%u", printf_unsigned},
-		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX},
-		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
-	};
+	if (format == NULL)
+	{
+		/* Handle NULL format string error here */
+		return -1;
+	}
 
 	va_list args;
-	int i = 0, j, len = 0;
-
 	va_start(args, format);
-	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
-		return (-1);
+	int count = 0;
+	char specifier;
 
-Here:
-	while (format[i] != '\0')
+	while (*format)
 	{
-		j = 13;
-		while (j >= 0)
+		if (*format == '%')
 		{
-			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
+			format++; /* Move past the '%' */
+
+			if (*format == NULL)
+				break;
+
+			switch (*format)
 			{
-				len += m[j].f(args);
-				i = i + 2;
-				goto Here;
+				case '%':
+					putchar('%');
+					count++;
+					break;
+				case 'c':
+					specifier = va_arg(args, int);
+					putchar(specifier);
+					count++;
+					break;
+				case 's':
+					{
+						char *str = va_arg(args, char *);
+						if (str == NULL)
+							str = "(null)";
+						while (*str)
+						{
+							putchar(*str);
+							str++;
+							count++;
+						}
+					}
+					break;
+				default:
+					putchar('%');
+					putchar(*format);
+					count += 2;
+					break; /* Handle unknown specifier case */
 			}
-			j--;
 		}
-		_putchar(format[i]);
-		len++;
-		i++;
+		else
+		{
+			putchar(*format);
+			count++;
+		}
+
+		format++; /* Move to the next character in the format string */
 	}
+
 	va_end(args);
-	return (len);
+	return count;
 }
