@@ -2,11 +2,12 @@
 #include <stdio.h>
 
 /**
-* _printf - a function that produces output according to a format
-* @format: character string
-* Return: the number of characters printed (excluding the null byte used to end output to strings)
-*/
-
+ * _printf - a function that produces output according to a format.
+ * @format: character string.
+ *
+ * Return: the number of characters printed (excluding the null byte used to
+ * end output to strings).
+ */
 int _printf(const char *format, ...)
 {
 	if (format == NULL)
@@ -26,7 +27,7 @@ int _printf(const char *format, ...)
 		{
 			format++; /* Move past the '%' */
 
-			if (*format == NULL)
+			if (*format == '\0')
 				break;
 
 			switch (*format)
@@ -45,14 +46,16 @@ int _printf(const char *format, ...)
 						char *str = va_arg(args, char *);
 						if (str == NULL)
 							str = "(null)";
+
 						while (*str)
 						{
 							putchar(*str);
 							str++;
 							count++;
 						}
+
+						break;
 					}
-					break;
 				default:
 					putchar('%');
 					putchar(*format);
@@ -66,7 +69,7 @@ int _printf(const char *format, ...)
 			count++;
 		}
 
-		format++; /* Move to the next character in the format string */
+		format++;
 	}
 
 	va_end(args);
