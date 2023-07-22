@@ -1,70 +1,74 @@
-#include "main.h"
-#include <limits.h>
+#include <stdarg.h>
 #include <stdio.h>
 
 /**
- * _printf - produces output according to a format
- * @format: format string containing the characters and the specifiers
- * Description: this function will call the get_print() function that will
- * determine which printing function to call depending on the conversion
- * specifiers contained into fmt
- * Return: length of the formatted output string
- */
+* _printf - a function that produces output according to a format
+* @format: character string
+* Return: the number of characters printed (excluding the null byte used to end output to strings)
+*/
+
 int _printf(const char *format, ...)
 {
-	int (*pfunc)(va_list, flags_t *);
-	const char *p;
-	va_list arguments;
-	flags_t flags = {0, 0, 0};
-
-	register int count = 0;
-
-	va_start(arguments, format);
-	if (!format || (format[0] == '%' && !format[1]))
-		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	for (p = format; *p; p++)
+	if (format == NULL)
 	{
-		if (*p == '%')
+		/* Handle NULL format string error here */
+		return -1;
+	}
+
+	va_list args;
+	va_start(args, format);
+	int count = 0;
+	char specifier;
+
+	while (*format)
+	{
+		if (*format == '%')
 		{
-			p++;
-			if (*p == '%')
-			{
-				count += _putchar('%');
-				continue;
-			}
-			while (get_flag(*p, &flags))
-				p++;
-			switch (*p)
-			{
-			case 'c':
-			case 's':
-			case 'd':
-			case 'i':
-			case 'b':
-			case 'u':
-			case 'o':
-			case 'x':
-			case 'X':
-			case 'p':
-			case 'r':
-			case 'R':
-				pfunc = get_print(*p);
-				count += (pfunc)
-					? pfunc(arguments, &flags)
-					: _printf("%%%c", *p);
+			format++; /* Move past the '%' */
+
+			if (*format == NULL)
 				break;
-			default:
-				count += _putchar('%');
-				count += _putchar(*p);
-				break;
+
+			switch (*format)
+			{
+				case '%':
+					putchar('%');
+					count++;
+					break;
+				case 'c':
+					specifier = va_arg(args, int);
+					putchar(specifier);
+					count++;
+					break;
+				case 's':
+					{
+						char *str = va_arg(args, char *);
+						if (str == NULL)
+							str = "(null)";
+						while (*str)
+						{
+							putchar(*str);
+							str++;
+							count++;
+						}
+					}
+					break;
+				default:
+					putchar('%');
+					putchar(*format);
+					count += 2;
+					break; /* Handle unknown specifier case */
 			}
 		}
 		else
-			count += _putchar(*p);
+		{
+			putchar(*format);
+			count++;
+		}
+
+		format++; /* Move to the next character in the format string */
 	}
-	_putchar(-1);
-	va_end(arguments);
-	return (count);
+
+	va_end(args);
+	return count;
 }
