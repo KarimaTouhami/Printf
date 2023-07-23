@@ -12,6 +12,7 @@ int _printf(const char *format, ...)
 {
 	if (format == NULL)
 	{
+		/* Handle NULL format string error here */
 		return -1;
 	}
 
@@ -76,5 +77,5 @@ int _printf(const char *format, ...)
 	}
 
 	va_end(args);
-	return count;
+	return (count);
 }
