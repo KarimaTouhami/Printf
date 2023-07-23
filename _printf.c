@@ -2,69 +2,51 @@
 #include <stdio.h>
 
 /**
- * _printf - a function that produces output according to a format.
- * @format: character string.
+ * _printf - Produces output according to a format.
+ * @format: Character string.
  *
- * Return: the number of characters printed (excluding the null byte used to
+ * Return: The number of characters printed (excluding the null byte used to
  * end output to strings).
  */
 int _printf(const char *format, ...)
 {
 	if (format == NULL)
-	{
-		/* Handle NULL format string error here */
-		return -1;
-	}
+		return (-1);
 
 	va_list args;
 	va_start(args, format);
 	int count = 0;
-	char specifier;
 
 	while (*format)
 	{
 		if (*format == '%')
 		{
-			format++; /* Move past the '%' */
-
+			format++;
 			if (*format == '\0')
-			{
 				break;
-			}
 
-			switch (*format)
+			if (*format == 'c')
 			{
-				case '%':
-					putchar('%');
-					count++;
-					break;
-				case 'c':
-					specifier = va_arg(args, int);
-					putchar(specifier);
-					count++;
-					break;
-				case 's':
+				putchar(va_arg(args, int));
+				count++;
+			}
+			else if (*format == 's')
+			{
+				char *str = va_arg(args, char *);
+				if (str == NULL)
+					str = "(null)";
+
+				while (*str)
 				{
-					char *str = va_arg(args, char *);
-					if (str == NULL)
-					{
-						str = "(null)";
-					}
-
-					while (*str)
-					{
-						putchar(*str);
-						str++;
-						count++;
-					}
-
-					break;
-				}
-				default:
-					putchar('%');
-					putchar(*format);
+					putchar(*str++);
 					count++;
-					break; /* Handle unknown specifier case */
+				}
+			}
+			else
+			{
+				putchar('%');
+				putchar(*format);
+				count += 2;
 			}
 		}
 		else
@@ -77,6 +59,5 @@ int _printf(const char *format, ...)
 	}
 
 	va_end(args);
-	return count;
+	return (count);
 }
-
