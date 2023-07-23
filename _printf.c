@@ -2,17 +2,16 @@
 #include <stdio.h>
 
 /**
- * _printf - a function that produces output according to a format.
- * @format: character string.
+ * _printf - A function that produces output according to a format.
+ * @format: Character string.
  *
- * Return: the number of characters printed (excluding the null byte used to
+ * Return: The number of characters printed (excluding the null byte used to
  * end output to strings).
  */
 int _printf(const char *format, ...)
 {
 	if (format == NULL)
 	{
-		/* Handle NULL format string error here */
 		return -1;
 	}
 
@@ -27,7 +26,7 @@ int _printf(const char *format, ...)
 		{
 			format++; /* Move past the '%' */
 
-			if (*format == NULL)
+			if (*format == '\0')
 			{
 				break;
 			}
