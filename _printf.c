@@ -16,15 +16,9 @@ int _printf(const char *format, ...)
 	va_start(ap, format);
 
 	if (!format || (format[0] == '%' && !format[1]))
-<<<<<<< HEAD
 		return (-1);
 	if (format[0] == '%' && format[1] == ' ' && !format[2])
 		return (-1);
-=======
-		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
->>>>>>> 0f0d87a8e85cbd358de71d72615809eda8263f4b
 	for (p = (char *)format; *p; p++)
 	{
 		init_params(&params, ap);
@@ -53,4 +47,3 @@ int _printf(const char *format, ...)
 	va_end(ap);
 	return (sum);
 }
-
