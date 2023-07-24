@@ -1,39 +1,50 @@
-#include <stdarg.h>
-#include <stdio.h>
+#include "main.h"
 
 /**
- * _printf - Produces output according to a format.
- * @format: Character string.
- * Return: The number of characters printed (excluding the null byte used to
- * end output to strings).
+ * _printf - prints anything
+ * @format: the format string
+ *
+ * Return: number of bytes printed
  */
 int _printf(const char *format, ...)
 {
-	if (format == NULL)
-		return (-1);
-	va_list args;
-	va_start(args, format);
-	int count = 0;
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == '\0')
-				break;
-			if (*format == 'c')
-				putchar(va_arg(args, int)), count++;
-			else if (*format == 's')
-				for (char *str = va_arg(args, char *); str && *str; putchar(*str++), count++)
-					;
-			else
-				putchar('%'), putchar(*format), count += 2;
-		}
-		else
-			putchar(*format), count++;
+	int sum = 0;
+	va_list ap;
+	char *p, *start;
+	params_t params = PARAMS_INIT;
 
-		format++;
+	va_start(ap, format);
+
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = (char *)format; *p; p++)
+	{
+		init_params(&params, ap);
+		if (*p != '%')
+		{
+			sum += _putchar(*p);
+			continue;
+		}
+		start = p;
+		p++;
+		while (get_flag(p, &params)) /* while char at p is flag char */
+		{
+			p++; /* next char */
+		}
+		p = get_width(p, &params, ap);
+		p = get_precision(p, &params, ap);
+		if (get_modifier(p, &params))
+			p++;
+		if (!get_specifier(p))
+			sum += print_from_to(start, p,
+				params.l_modifier || params.h_modifier ? p - 1 : 0);
+		else
+			sum += get_print_func(p, ap, &params);
 	}
-	va_end(args);
-	return (count);
+	_putchar(BUF_FLUSH);
+	va_end(ap);
+	return (sum);
 }
+
