@@ -9,7 +9,7 @@
 
 int _printf(const char *format, ...)
 {
-    int num_chars_printed = 0; // Changed variable name to num_chars_printed
+    int total_chars_printed = 0; // Changed variable name from 'result' to 'total_chars_printed'
     va_list args;
 
     va_start(args, format);
@@ -22,15 +22,15 @@ int _printf(const char *format, ...)
         if (*format == '%')
         {
             format++;
-            num_chars_printed += switch_char(args, *format); // Updated variable name here
+            total_chars_printed += switch_char(args, *format); // Updated variable name here
         }
         else
         {
             _putchar(*format);
-            num_chars_printed++; // Updated variable name here
+            total_chars_printed++; // Updated variable name here
         }
         format++;
     }
     va_end(args);
-    return (num_chars_printed); // Updated variable name here
+    return (total_chars_printed); // Updated return statement here
 }
