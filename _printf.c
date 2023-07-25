@@ -3,7 +3,6 @@
 /**
  * _printf - function that produces output according to a format
  * @format: character string
- * owned by karkazou & S0UMIM00N
  * Return: counter of char
  */
 
