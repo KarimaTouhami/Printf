@@ -2,7 +2,7 @@
 
 /**
  * _putchar - writes the character c to stdout
- *
+ * AUTHORS: TouhamiKarima & Ayoub Elmohamedi
  * @d: The character to print
  *
  * Return: On success 1.
