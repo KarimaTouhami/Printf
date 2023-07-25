@@ -21,6 +21,7 @@ int switch_char(va_list handle, char cara)
 			break;
 		case 'd':
 			print_c += printf_dec(handle);
+			break;
 		case 'i':
 			print_c += printf_int(handle);
 			break;
