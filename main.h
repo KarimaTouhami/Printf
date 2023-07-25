@@ -16,5 +16,7 @@ int printf_char(va_list handle);
 int printf_string(va_list handle);
 int switch_char(va_list handle, char cara);
 int printf_int(va_list handle);
+int printf_dec(va_list handle);
+int printf_oct(va_list val);
 
 #endif
