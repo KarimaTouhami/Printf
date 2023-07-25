@@ -4,7 +4,6 @@
  * switch_char -> function that produces output according to a format
  * @handle: liste
  * @cara: character
- * owned by karkazou & S0UMIM00N
  * Return: counter of char
  */
 
