@@ -2,7 +2,7 @@
 
 /**
  * switch_char -> function that produces output according to a format
- * @handle: liste
+ * @handle: list
  * @cara: character
  * Return: counter of char
  */
