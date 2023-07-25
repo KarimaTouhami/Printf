@@ -12,9 +12,9 @@
 
 int _putchar(char c);
 int _printf(const char *format, ...);
-int printf_char(va_list handle);
-int printf_string(va_list handle);
-int switch_char(va_list handle, char cara); // Added the declaration for switch_char
-int printf_int(va_list handle);
+int printf_char(va_list handle); // Prototype for the function used in switch_char
+int printf_string(va_list handle); // Prototype for the function used in switch_char
+int switch_char(va_list handle, char cara); // Prototype for the helper function in _printf
+int printf_int(va_list handle); // Prototype for the function used in switch_char
 
 #endif
