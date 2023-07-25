@@ -3,7 +3,6 @@
 /**
  * printf_int -> function that produces output according to a format
  * @handle: liste
- * owned by karkazou & S0UMIM00N
  * Return: counter of char
  */
 
