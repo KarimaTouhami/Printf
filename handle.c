@@ -3,15 +3,15 @@
 /**
  * _putchar - writes the character c to stdout
  *
- * @c: The character to print
+ * @d: The character to print
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
 
-int _putchar(char c)
+int _putchar(char d)
 {
-	return (write(1, &c, 1));
+	return (write(1, &d, 1));
 }
 
 /**
@@ -22,11 +22,11 @@ int _putchar(char c)
 
 int printf_char(va_list handle)
 {
-	char c;
+	char d;
 
-	c = va_arg(handle, int);
+	d = va_arg(handle, int);
 
-	_putchar(c);
+	_putchar(d);
 
 	return (1);
 }
@@ -39,23 +39,23 @@ int printf_char(va_list handle)
 
 int printf_string(va_list handle)
 {
-	char *s;
+	char *f;
 	int i = 0;
 
-	s = va_arg(handle, char *);
+	f = va_arg(handle, char *);
 
-	if (s == NULL)
+	if (f == NULL)
 	{
 		write(1, "(null)", 6);
 		return (6);
 	}
 	else
 	{
-		while (*s)
+		while (*f)
 		{
-			_putchar(*s);
+			_putchar(*f);
 			i++;
-			s++;
+			f++;
 		}
 	}
 	return (i);
