@@ -12,9 +12,9 @@
 
 int _putchar(char c);
 int _printf(const char *format, ...);
-int printf_char(va_list handle);
-int printf_string(va_list handle);
-int switch_char(va_list handle, char cara);
-int printf_int(va_list handle);
+int printf_char(va_list args); // Updated function name
+int printf_string(va_list args); // Updated function name
+int switch_char(va_list args, char cara); // Updated function name
+int printf_int(va_list args); // Updated function name
 
 #endif
