@@ -28,7 +28,7 @@ int switch_char(va_list handle, char cara)
 		case 'u':
 			print_c += printf_unsigned(handle); 
 			break;
-		case '':
+		case 'o':
 			print_c += printf_oct(handle);
 		       	break;	
 		case '%':
