@@ -18,6 +18,6 @@ int switch_char(va_list handle, char cara);
 int printf_int(va_list handle);
 int printf_dec(va_list handle);
 int printf_oct(va_list val);
-int printf_unsigned(va_list args)
+int printf_unsigned(va_list args);
 
 #endif
