@@ -8,15 +8,21 @@
 int main(void)
 {
     int test = 0;
-    test = _printf("test char %d\n", 0);
+
+    test = _printf("test char %s\n", "0");
     printf("%d\n", test);
-    test = _printf("test char %d\n", 12);
+
+    test = _printf("test char %c\n", '12');
     printf("%d\n", test);
-    test = _printf("test char %d\n", 34535354);
+
+    test = _printf("test char %s\n", "34535354");
     printf("%d\n", test);
-    test = _printf("test char %d\n", -34535354);
+
+    test = _printf("test char %c\n", '-');
     printf("%d\n", test);
-    test = _printf("test char %d\n", 2147483647);
+
+    test = _printf("test char %s\n", "2147483647");
     printf("%d\n", test);
+
     return (0);
 }
