@@ -9,7 +9,7 @@ int printf_unsigned(va_list args)
 {
 	unsigned int n = va_arg(args, unsigned int);
 	int num, last = n % 10, digit, exp = 1;
-	int  counter = 1;
+	int  i = 1;
 
 	n = n / 10;
 	num = n;
@@ -20,8 +20,7 @@ int printf_unsigned(va_list args)
 		num = -num;
 		n = -n;
 		last = -last;
-		counter++;
-		
+		i++;
 	}
 	if (num > 0)
 	{
@@ -37,10 +36,10 @@ int printf_unsigned(va_list args)
 			_putchar(digit + '0');
 			num = num - (digit * exp);
 			exp = exp / 10;
-			counter++;
+			i++;
 		}
 	}
 	_putchar(last + '0');
 
-	return (counter);
+	return (i);
 }
