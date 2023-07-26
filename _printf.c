@@ -3,34 +3,39 @@
 /**
  * _printf - function that produces output according to a format
  * AUTHORS: TouhamiKarima & Ayoub Elmohamedi
- * @format: character string
- * Return: counter of char
+ * @format: identifier
+ * Return: string length
  */
 
 int _printf(const char *format, ...)
 {
-	int result = 0;
-	va_list handle;
+	convert_match m[] = {{"%s", printf_string}, {"%c", printf_char},{"%%", printf_37}};
 
-	va_start(handle, format);
-	if (!format || (format[0] == '%' && !format[1]))
+	va_list args;
+	int i = 0, j, len = 0;
+
+	va_start(args, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
 		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	while (*format != '\0')
+
+Here:
+	while (format[i] != '\0')
 	{
-		if (*format == '%')
+		j = 2;
+		while (j >= 0)
 		{
-			format++;
-			result += switch_char(handle, *format);
+			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
+			{
+				len += m[j].f(args);
+				i = i + 2;
+				goto Here;
+			}
+			j--;
 		}
-		else
-		{
-			_putchar(*format);
-			result++;
-		}
-		format++;
+		_putchar(format[i]);
+		len++;
+		i++;
 	}
-	va_end(handle);
-	return (result);
+	va_end(args);
+	return (len);
 }
