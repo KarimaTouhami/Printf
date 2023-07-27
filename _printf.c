@@ -9,7 +9,8 @@
 
 int _printf(const char *format, ...)
 {
-	convert_match m[] = {{"%s", printf_string}, {"%c", printf_char},{"%%", printf_37},{"%i", printf_int}, {"%d", printf_dec},{"%b",printf_bin}};
+	convert_match m[] = {{"%s", printf_string}, {"%c", printf_char},{"%%", printf_37},{"%i", printf_int}, {"%d", printf_dec},{"%b",printf_bin}
+	};
 
 	va_list args;
 	int i = 0, j, len = 0;
