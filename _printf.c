@@ -11,8 +11,7 @@ int _printf(const char *format, ...)
 {
 	convert_match m[] = {
 		{"%s", printf_string}, {"%c", printf_char},
-		{"%%", printf_37},{"%i", printf_int},
-		{"%d", printf_dec},{"%b",printf_bin},
+		{"%i", printf_int},{"%d", printf_dec},{"%b",printf_bin},
 		{"%u", printf_unsigned},{"%o", printf_oct},
 		{"%x", printf_hex}, {"%X", printf_HEX},
 		{"%S", printf_exclusive_string}
