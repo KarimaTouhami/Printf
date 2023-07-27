@@ -14,7 +14,8 @@ int _printf(const char *format, ...)
 		{"%%", printf_37},{"%i", printf_int},
 		{"%d", printf_dec},{"%b",printf_bin},
 		{"%u", printf_unsigned},{"%o", printf_oct},
-		{"%x", printf_hex}, {"%X", printf_HEX}
+		{"%x", printf_hex}, {"%X", printf_HEX},
+		{"%S", printf_exclusive_string}
 	};
 
 	va_list args;
@@ -27,7 +28,7 @@ int _printf(const char *format, ...)
 Here:
 	while (format[i] != '\0')
 	{
-		j = 9;
+		j = 10;
 		while (j >= 0)
 		{
 			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
