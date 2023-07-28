@@ -6,16 +6,15 @@
  * @format: identifier
  * Return: string length
  */
-
 int _printf(const char *format, ...)
 {
 	convert_match m[] = {
 		{"%s", printf_string}, {"%c", printf_char},
 		{"%%", printf_37}, {"%i", printf_int},
-		{"%d", printf_dec},{"%b",printf_bin},
-		{"%u", printf_unsigned},{"%o", printf_oct},
+		{"%d", printf_dec}, {"%b", printf_bin},
+		{"%u", printf_unsigned}, {"%o", printf_oct},
 		{"%x", printf_hex}, {"%X", printf_HEX},
-		{"%S", printf_exclusive_string},{"%p", printf_pointer}
+		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
 	};
 
 	va_list args;
@@ -25,7 +24,6 @@ int _printf(const char *format, ...)
 	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
 		return (-1);
 
-Here:
 	while (format[i] != '\0')
 	{
 		j = 11;
@@ -35,13 +33,16 @@ Here:
 			{
 				len += m[j].f(args);
 				i = i + 2;
-				goto Here;
+				break;
 			}
 			j--;
 		}
-		_putchar(format[i]);
-		len++;
-		i++;
+		if (j < 0)
+		{
+			_putchar(format[i]);
+			len++;
+			i++;
+		}
 	}
 	va_end(args);
 	return (len);
