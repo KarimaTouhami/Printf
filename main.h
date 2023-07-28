@@ -22,6 +22,8 @@ typedef struct format
 	int (*f)();
 } convert_match;
 
+int printf_rot13(va_list args);
+int printf_srev(va_list args);
 int printf_pointer(va_list val);
 int printf_HEX_aux(unsigned int num);
 int printf_hex_aux(unsigned long int num);
